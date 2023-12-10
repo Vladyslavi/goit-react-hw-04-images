@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import {
@@ -9,37 +9,15 @@ import {
 } from './SearchBar.styled';
 
 const SearchBar = ({ onSubmit }) => {
+    const [searchName, setSearchName] = useState('');
     const [inputValue, setInputValue] = useState('');
-
-    const handleChange = (event) => {
-        setInputValue(event.target.value);
-    };
-
-    const handleSubmit = (event) => {
+    const handleChange = event => setInputValue(event.target.value);
+    const handleSubmit = event => {
         event.preventDefault();
-        const searchQuery = inputValue.trim();
-
-        if (searchQuery !== '') {
-            onSubmit(searchQuery);
-            setInputValue('');
-        }
+        setSearchName(inputValue.trim());
+        onSubmit(searchName);
+        event.target.reset();
     };
-
-    const handleKeyPress = useCallback(
-        (event) => {
-            if (event.key === 'Enter') {
-                handleSubmit(event);
-            }
-        },
-        [handleSubmit]
-    );
-
-    useEffect(() => {
-        document.addEventListener('keydown', handleKeyPress);
-        return () => {
-            document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [handleKeyPress]);
 
     return (
         <header>
