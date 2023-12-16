@@ -9,14 +9,17 @@ import {
 } from './SearchBar.styled';
 
 const SearchBar = ({ onSubmit }) => {
-    const [searchName, setSearchName] = useState('');
     const [inputValue, setInputValue] = useState('');
+
     const handleChange = event => setInputValue(event.target.value);
+
     const handleSubmit = event => {
         event.preventDefault();
-        setSearchName(inputValue.trim());
-        onSubmit(searchName);
-        event.target.reset();
+        const trimmedValue = inputValue.trim();
+        if (trimmedValue) {
+            onSubmit(trimmedValue);
+            setInputValue('');
+        }
     };
 
     return (
